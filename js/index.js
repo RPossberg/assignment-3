@@ -33,6 +33,15 @@ appInit();
 
 */
 
+import { addToFavorites } from "./api/tasks.js";
+import { fetcher } from "./utils/fetcher.js";
+import { albumCard } from "./templates/albumCard.js";
+import { favoriteCard } from "./templates/favoriteCard.js";
+
+// data albumStore
+let albumStore = [];
+let favoriteStore = [];
+
 function searchAlbums() {
   // get the search input value
   const searchInput = document.getElementById("searchInput").value;
