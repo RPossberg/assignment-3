@@ -1,16 +1,5 @@
 console.log("index.js");
 
-// fetch request to get the albums from the albums resourse on the mock api service
-async function appInit() {
-  const res = await fetch(
-    "https://66147b812fc47b4cf27c6899.mockapi.io/api/v1/albums"
-  );
-  const payload = await res.json();
-  console.log(payload);
-}
-
-appInit();
-
 /*
   Search Album View
   For the UI view, we need to add the search albums functionality.
@@ -32,18 +21,29 @@ appInit();
               </li>
 
 */
-
-import { addToFavorites } from "./api/tasks.js";
-import { fetcher } from "./utils/fetcher.js";
-import { albumCard } from "./templates/albumCard.js";
+import { fetcher } from "./utils/fetcher";
+import { addToFavorites } from "./api/tasks";
+import { albumCard } from "./templates/albumCard";
 import { favoriteCard } from "./templates/favoriteCard.js";
+
+// fetch request to get the albums from the albums resourse on the mock api service
+let store;
+async function appInit() {
+  store = await fetcher(
+    "https://66147b812fc47b4cf27c6899.mockapi.io/api/v1/albums"
+  );
+
+  renderAlbums(store);
+  console.log(store);
+}
+
+appInit();
 
 // data albumStore
 let albumStore = [];
 let favoriteStore = [];
 
-function searchAlbums() {
-  // get the search input value
-  const searchInput = document.getElementById("searchInput").value;
-  console.log(searchInput);
+function renderAlbums(albums) {
+  const albumCardElements = albums.map((albumData) => albumCard(albumData));
+  console.log(object);
 }
