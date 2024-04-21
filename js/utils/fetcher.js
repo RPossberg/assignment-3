@@ -3,4 +3,4 @@ async function fetcher(url) {
   return await res.json();
 }
 
-export { fetcher };
+export { fetcher }; // export the fetcher function
