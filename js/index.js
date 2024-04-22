@@ -1,7 +1,7 @@
 console.log("index.js"); // log to the console to confirm that the file is being executed
 
 // import the necessary functions from the utils folder
-import { template } from "./templates/albumCard";
+// import { template } from "./templates/albumCard";
 import { fetcher } from "./utils/fetcher"; // import the fetcher function from the fetcher module
 import { albumCard } from "./templates/albumCard";
 
@@ -11,11 +11,12 @@ let store;
 //  get the master copy of the albums container
 const masterCopy = document.querySelector("#favorites").cloneNode(true);
 async function appInit() {
+  console.log(masterCopy);
   const store = await fetcher(
     "https://66147b812fc47b4cf27c6899.mockapi.io/api/v1/albums"
   );
 
-  renderAlbums(store); // render albums
+  // renderAlbums(store); // render albums
   console.log(store);
 }
 
