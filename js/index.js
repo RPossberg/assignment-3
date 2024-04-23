@@ -6,7 +6,7 @@ import { albumCard } from "./templates/albumCard";
 import { favoriteCard } from "./templates/favoriteCard";
 
 // Global variables
-let store;
+let store = [];
 const masterCopy = document.querySelector("#results").cloneNode(true);
 let albumStore = [];
 let favoriteStore = [];
@@ -81,48 +81,55 @@ function addAlbumInteractivity(container) {
 //   document.querySelector("#results").replaceWith(container);
 // }
 
-// Setup tabswitching between the Search Albums and Favorite Albums tabs in the UI
+// Setup tab switching between the Search Albums and Favorite Albums tabs in the UI
 const searchTab = document.querySelector("#search-button");
 const favoriteTab = document.querySelector("#favorites-button");
 
-searchTab.addEventListener("click", () => {
-  searchTab.classList.add("active");
-  searchBtn.classList.remove("d-none");
-  favoriteTab.classList.remove("active");
-  favoritesBtn.classList.add("d-none");
-  renderAlbums(store);
-});
-
+// Favorites Tab
 favoriteTab.addEventListener("click", () => {
   favoriteTab.classList.add("active");
   searchBtn.classList.add("d-none");
   searchTab.classList.remove("active");
-  favoritesBtn.classList.remove("d-none");
   renderAlbums(favoriteStore);
 });
 
+// Search Tab
+searchTab.addEventListener("click", () => {
+  searchTab.classList.add("active");
+  searchBtn.classList.remove("d-none");
+  favoriteTab.classList.remove("active");
+  renderAlbums(store);
+});
+
+document.addEventListener("DOMContentLoaded", (e) => {
+  {
+    e.preventDefault();
+    const query = document.querySelector("#query").value.trim();
+    console.log(query);
+    const results = store.filter((album) => {
+      return album.albumName.toLowerCase().includes(query.toLowerCase());
+    });
+
+    renderAlbums(results);
+  }
+});
 // when the user requests a search, query the album data for matches on both the artistName and the albumName. Use the template in the albumCard.js file to render the results
-const searchBtn = document.querySelector("#search-button");
-searchBtn.addEventListener("click", async (e) => {
+document.querySelector("#search-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const query = document.querySelector("#query").value.trim();
-  const results = store.filter((album) => {
-    return album.albumName.toLowerCase().includes(query.toLowerCase());
-  });
 
-  renderAlbums(results);
-  console.log(results);
+  // Check if 'store' is defined and is an array
+  if (Array.isArray(store)) {
+    const results = store.filter((album) =>
+      album.albumName.toLowerCase().includes(query.toLowerCase())
+    );
+    renderAlbums(results);
+  } else {
+    console.error("'store' is not properly initialized or is not an array.");
+    // Handle the error appropriately, maybe show a user-friendly message
+  }
 });
 
 // document.addEventListener("DOMContentLoaded", (e) => {
-//   {
-//     e.preventDefault();
-//     const query = document.querySelector("#query").value.trim();
-//     console.log(query);
-//     const results = store.filter((album) => {
-//       return album.albumName.toLowerCase().includes(query.toLowerCase());
-//     });
-
-//     renderAlbums(results);
-//   }
+//   renderAlbums(store);
 // });
