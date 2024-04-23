@@ -28,28 +28,58 @@ function renderAlbums(albums) {
   albums.forEach((album) => {
     container.appendChild(albumCard(album));
   });
-
-  // interactive templating
-  // container.querySelectorAll("button").forEach((button) => {
-  //   button.addEventListener("click", (e) => {
-  //     const uid = e.target.getAttribute("data-uid");
-  //     const album = store.find((album) => album.uid === uid);
-  //     const favoriteIndex = favoriteStore.findIndex(
-  //       (album) => album.uid === uid
-  //     );
-
-  //     if (favoriteIndex === -1) {
-  //       favoriteStore.push(album);
-  //     } else {
-  //       favoriteStore.splice(favoriteIndex, 1);
-  //     }
-
-  //     renderAlbums(store);
-  //   });
-  // });
-
   document.querySelector("#results").replaceWith(container);
+  // Call the function to add interactivity after albums are rendered
+  addAlbumInteractivity(container);
 }
+
+function addAlbumInteractivity(container) {
+  container.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const uid = e.target.getAttribute("data-uid");
+      const album = store.find((album) => album.uid === uid);
+      const favoriteIndex = favoriteStore.findIndex(
+        (album) => album.uid === uid
+      );
+
+      if (favoriteIndex === -1) {
+        favoriteStore.push(album);
+      } else {
+        favoriteStore.splice(favoriteIndex, 1);
+      }
+      // Optionally, refresh the favorites display or perform other updates here
+      renderAlbums(store);
+    });
+  });
+}
+
+// function renderAlbums(albums) {
+//   const container = masterCopy.cloneNode(true);
+//   albums.forEach((album) => {
+//     container.appendChild(albumCard(album));
+//   });
+
+//   // interactive templating
+//   container.querySelectorAll("button").forEach((button) => {
+//     button.addEventListener("click", (e) => {
+//       const uid = e.target.getAttribute("data-uid");
+//       const album = store.find((album) => album.uid === uid);
+//       const favoriteIndex = favoriteStore.findIndex(
+//         (album) => album.uid === uid
+//       );
+
+//       if (favoriteIndex === -1) {
+//         favoriteStore.push(album);
+//       } else {
+//         favoriteStore.splice(favoriteIndex, 1);
+//       }
+
+//       renderAlbums(store);
+//     });
+//   });
+
+//   document.querySelector("#results").replaceWith(container);
+// }
 
 // Setup tabswitching between the Search Albums and Favorite Albums tabs in the UI
 const searchTab = document.querySelector("#search-button");
