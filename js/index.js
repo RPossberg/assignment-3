@@ -1,18 +1,19 @@
 console.log("index.js"); // log to the console to confirm that the file is being executed
 
-// import the necessary functions from the utils folder
-
-import { fetcher } from "./utils/fetcher"; // import the fetcher function from the fetcher module
+// Import necessary functions
+import { fetcher } from "./utils/fetcher";
 import { albumCard } from "./templates/albumCard";
+import { favoriteCard } from "./templates/favoriteCard";
 
-// fetch request to get the albums from the albums resourse on the mock api service
-// store the albums in the store variable
+// Global variables
 let store;
-//  get the master copy of the albums container
 const masterCopy = document.querySelector("#results").cloneNode(true);
+let albumStore = [];
+let favoriteStore = [];
 
+// Initialization function
 async function appInit() {
-  const store = await fetcher(
+  let store = await fetcher(
     "https://66147b812fc47b4cf27c6899.mockapi.io/api/v1/albums"
   );
 
@@ -22,10 +23,6 @@ async function appInit() {
 
 appInit();
 
-// data albumStore
-let albumStore = [];
-let favoriteStore = [];
-
 function renderAlbums(albums) {
   const container = masterCopy.cloneNode(true);
   albums.forEach((album) => {
@@ -33,9 +30,23 @@ function renderAlbums(albums) {
   });
 
   // interactive templating
-  //
-  // const elem = document.createRange().createContextualFragment(template)
-  //   .children[0];
+  // container.querySelectorAll("button").forEach((button) => {
+  //   button.addEventListener("click", (e) => {
+  //     const uid = e.target.getAttribute("data-uid");
+  //     const album = store.find((album) => album.uid === uid);
+  //     const favoriteIndex = favoriteStore.findIndex(
+  //       (album) => album.uid === uid
+  //     );
+
+  //     if (favoriteIndex === -1) {
+  //       favoriteStore.push(album);
+  //     } else {
+  //       favoriteStore.splice(favoriteIndex, 1);
+  //     }
+
+  //     renderAlbums(store);
+  //   });
+  // });
 
   document.querySelector("#results").replaceWith(container);
 }
@@ -46,71 +57,42 @@ const favoriteTab = document.querySelector("#favorites-button");
 
 searchTab.addEventListener("click", () => {
   searchTab.classList.add("active");
+  searchBtn.classList.remove("d-none");
   favoriteTab.classList.remove("active");
+  favoritesBtn.classList.add("d-none");
   renderAlbums(store);
 });
 
 favoriteTab.addEventListener("click", () => {
   favoriteTab.classList.add("active");
+  searchBtn.classList.add("d-none");
   searchTab.classList.remove("active");
+  favoritesBtn.classList.remove("d-none");
   renderAlbums(favoriteStore);
 });
 
-function onDisplaySearchResults(albums) {
-  const searchResultsElement = document.getElementById("searchResults");
-  searchResultsElement.innerHTML = ""; // Clear existing content
-  albums.forEach((album) => {
-    const albumElement = document.createElement("div");
-    albumElement.textContent = album.albumName;
-    searchResultsElement.appendChild(albumElement);
-  });
-}
-
-function onDisplayFavoriteResults(albums) {
-  const favoriteResultsElement = document.getElementById("favoriteResults");
-  favoriteResultsElement.innerHTML = ""; // Clear existing content
-  albums
-    .filter((album) => album.isFavorite)
-    .forEach((album) => {
-      const albumElement = document.createElement("div");
-      albumElement.textContent = album.albumName;
-      favoriteResultsElement.appendChild(albumElement);
-    });
-}
-
-// async function loadData() {
-//   const albums = await fetchAlbums();
-//   onDisplaySearchResults(albums); // Initially display all albums in the search tab
-//   onDisplayFavoriteResults(albums); // Display favorite albums
-// }
-
-// loadData();
-
-// swap the active class between the tabs
-// searchTab.addEventListener("click", () => {
-//   searchTab.classList.add("active");
-//   favoriteTab.classList.remove("active");
-//   renderAlbums(store);
-// });
-
-// favoriteTab.addEventListener("click", () => {
-//   favoriteTab.classList.add("active");
-//   searchTab.classList.remove("active");
-//   renderAlbums(favoriteStore);
-// });
-
-// function to handle the search submission
-function searchFilter(query, data) {
+// when the user requests a search, query the album data for matches on both the artistName and the albumName. Use the template in the albumCard.js file to render the results
+const searchBtn = document.querySelector("#search-button");
+searchBtn.addEventListener("click", async (e) => {
   e.preventDefault();
-  const trimmedQuery = query.trim().toLowerCase();
-  const searchResult = searchAlbums(query);
-  renderAlbums(searchResult);
-  console.log(searchResult);
-}
-
-// function to search for albums based on the query
-function searchAlbums(query) {
-  return store.filter((album) => {
+  const query = document.querySelector("#query").value.trim();
+  const results = store.filter((album) => {
     return album.albumName.toLowerCase().includes(query.toLowerCase());
   });
-}
+
+  renderAlbums(results);
+  console.log(results);
+});
+
+// document.addEventListener("DOMContentLoaded", (e) => {
+//   {
+//     e.preventDefault();
+//     const query = document.querySelector("#query").value.trim();
+//     console.log(query);
+//     const results = store.filter((album) => {
+//       return album.albumName.toLowerCase().includes(query.toLowerCase());
+//     });
+
+//     renderAlbums(results);
+//   }
+// });
