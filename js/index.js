@@ -78,13 +78,13 @@ function onDisplayFavoriteResults(albums) {
     });
 }
 
-async function loadData() {
-  const albums = await fetchAlbums();
-  onDisplaySearchResults(albums); // Initially display all albums in the search tab
-  onDisplayFavoriteResults(albums); // Display favorite albums
-}
+// async function loadData() {
+//   const albums = await fetchAlbums();
+//   onDisplaySearchResults(albums); // Initially display all albums in the search tab
+//   onDisplayFavoriteResults(albums); // Display favorite albums
+// }
 
-loadData();
+// loadData();
 
 // swap the active class between the tabs
 // searchTab.addEventListener("click", () => {

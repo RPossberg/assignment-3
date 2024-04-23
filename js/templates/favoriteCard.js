@@ -10,8 +10,13 @@ function albumTemplate({ artistName, albumName, averageRating, uid }) {
       </div>
       <span> ${artistName} </span>
     </div>
-    <button data-uid=${uid} type="button" class="btn btn-success">Add to Favorites</button>
+    <button data-uid=${uid} type="button" class="btn btn-success">Remove from Favorites</button>
   </li>`;
 
   return template;
+}
+
+export function favoriteCard(album) {
+  const template = albumTemplate(album);
+  return toElement(template);
 }
