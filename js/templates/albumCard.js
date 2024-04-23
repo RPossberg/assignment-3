@@ -12,11 +12,7 @@ function albumTemplate({ artistName, albumName, averageRating, uid }) {
     </div>
     <button data-uid=${uid} type="button" class="btn btn-success">Add to Favorites</button>
   </li>`;
-  // const element = toElement(template);
-  // element.querySelector(".fw-bold").textContent = albumName;
-  // element.querySelector("span").textContent = artistName;
-  // element.querySelector("span.badge").textContent = averageRating;
-  // return element;
+
   return template;
 }
 

@@ -34,7 +34,83 @@ function renderAlbums(albums) {
 
   // interactive templating
   //
-  // const elem = document.createRange().createContextualFragment(template).children[0]
+  // const elem = document.createRange().createContextualFragment(template)
+  //   .children[0];
 
   document.querySelector("#results").replaceWith(container);
+}
+
+// Setup tabswitching between the Search Albums and Favorite Albums tabs in the UI
+const searchTab = document.querySelector("#search-button");
+const favoriteTab = document.querySelector("#favorites-button");
+
+searchTab.addEventListener("click", () => {
+  searchTab.classList.add("active");
+  favoriteTab.classList.remove("active");
+  renderAlbums(store);
+});
+
+favoriteTab.addEventListener("click", () => {
+  favoriteTab.classList.add("active");
+  searchTab.classList.remove("active");
+  renderAlbums(favoriteStore);
+});
+
+function onDisplaySearchResults(albums) {
+  const searchResultsElement = document.getElementById("searchResults");
+  searchResultsElement.innerHTML = ""; // Clear existing content
+  albums.forEach((album) => {
+    const albumElement = document.createElement("div");
+    albumElement.textContent = album.albumName;
+    searchResultsElement.appendChild(albumElement);
+  });
+}
+
+function onDisplayFavoriteResults(albums) {
+  const favoriteResultsElement = document.getElementById("favoriteResults");
+  favoriteResultsElement.innerHTML = ""; // Clear existing content
+  albums
+    .filter((album) => album.isFavorite)
+    .forEach((album) => {
+      const albumElement = document.createElement("div");
+      albumElement.textContent = album.albumName;
+      favoriteResultsElement.appendChild(albumElement);
+    });
+}
+
+async function loadData() {
+  const albums = await fetchAlbums();
+  onDisplaySearchResults(albums); // Initially display all albums in the search tab
+  onDisplayFavoriteResults(albums); // Display favorite albums
+}
+
+loadData();
+
+// swap the active class between the tabs
+// searchTab.addEventListener("click", () => {
+//   searchTab.classList.add("active");
+//   favoriteTab.classList.remove("active");
+//   renderAlbums(store);
+// });
+
+// favoriteTab.addEventListener("click", () => {
+//   favoriteTab.classList.add("active");
+//   searchTab.classList.remove("active");
+//   renderAlbums(favoriteStore);
+// });
+
+// function to handle the search submission
+function searchFilter(query, data) {
+  e.preventDefault();
+  const trimmedQuery = query.trim().toLowerCase();
+  const searchResult = searchAlbums(query);
+  renderAlbums(searchResult);
+  console.log(searchResult);
+}
+
+// function to search for albums based on the query
+function searchAlbums(query) {
+  return store.filter((album) => {
+    return album.albumName.toLowerCase().includes(query.toLowerCase());
+  });
 }
