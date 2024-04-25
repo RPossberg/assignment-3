@@ -30,16 +30,6 @@ async function appInit() {
 
 appInit();
 
-// function renderAlbums(albums) {
-//   const container = masterCopy.cloneNode(true);
-//   albums.forEach((album) => {
-//     container.appendChild(albumCard(album));
-//   });
-//   document.querySelector("#results").replaceWith(container);
-//   // Call the function to add interactivity after albums are rendered
-//   addAlbumInteractivity(container);
-// }
-
 function renderAlbums(albums) {
   const container = masterCopy.cloneNode(true); // Clone the master copy of the results container
   albums.forEach((album) => {
@@ -120,11 +110,33 @@ async function onAddToFavorites(event) {
   console.log(favoriteStore);
 }
 
+// Change the button text on the album card to "Remove from Favorites" when the album is already in the favorites list and add an event listener to remove the album from the favorites list when the button is clicked.
+function updateFavoriteButton(album) {
+  const favoriteIndex = favoriteStore.findIndex(
+    (favorite) => favorite.uid === album.uid
+  );
+  if (favoriteIndex !== -1) {
+    const button = document.querySelector(`button[data-uid="${album.uid}"]`);
+    button.textContent = "Remove from Favorites";
+    button.removeEventListener("click", onAddToFavorites);
+    button.addEventListener("click", onRemoveFromFavorites);
+  }
+}
+
 // Remove from Favorites
+// async function onRemoveFromFavorites(event) {
+//   const uid = event.target.getAttribute("data-uid");
+//   const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
+//   favoriteStore.splice(albumIndex, 1);
+//   renderAlbums(store);
+// }
 async function onRemoveFromFavorites(event) {
   const uid = event.target.getAttribute("data-uid");
   const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
-  favoriteStore.splice(albumIndex, 1);
+  if (albumIndex !== -1) {
+    favoriteStore.splice(albumIndex, 1);
+    updateFavoriteButton(album); // Ensure the button is updated
+  }
   renderAlbums(store);
 }
 
