@@ -102,7 +102,13 @@ favoriteTab.addEventListener("click", () => {
   favoriteTab.classList.add("active");
   searchTab.classList.remove("active");
   searchBtn.classList.add("d-none");
-  renderAlbums(favoriteStore);
+  // If there are no favorite albums, display a message to the user and display the search tab.
+  if (favoriteStore.length === 0) {
+    alert("No favorite albums found.");
+    searchTab.click();
+  } else {
+    renderAlbums(favoriteStore);
+  }
 });
 
 // Add to Favorites
@@ -121,14 +127,6 @@ async function onRemoveFromFavorites(event) {
   favoriteStore.splice(albumIndex, 1);
   renderAlbums(store);
 }
-
-// // Search Tab
-// searchTab.addEventListener("click", () => {
-//   searchTab.classList.add("active");
-//   searchBtn.classList.remove("d-none");
-//   favoriteTab.classList.remove("active");
-//   renderAlbums(store);
-// });
 
 document.addEventListener("DOMContentLoaded", (e) => {
   {
