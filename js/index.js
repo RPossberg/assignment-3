@@ -84,35 +84,6 @@ function addAlbumInteractivity(container) {
   });
 }
 
-// function renderAlbums(albums) {
-//   const container = masterCopy.cloneNode(true);
-//   albums.forEach((album) => {
-//     container.appendChild(albumCard(album));
-//   });
-
-//   // interactive templating
-//   container.querySelectorAll("button").forEach((button) => {
-//     button.addEventListener("click", (e) => {
-//       const uid = e.target.getAttribute("data-uid");
-//       const album = store.find((album) => album.uid === uid);
-//       const favoriteIndex = favoriteStore.findIndex(
-//         (album) => album.uid === uid
-//       );
-
-//       if (favoriteIndex === -1) {
-//         favoriteStore.push(album);
-//       } else {
-//         favoriteStore.splice(favoriteIndex, 1);
-//       }
-
-//       renderAlbums(store);
-//       console.log(favoriteStore);
-//     });
-//   });
-
-//   document.querySelector("#results").replaceWith(container);
-// }
-
 // Setup tab switching between the Search Albums and Favorite Albums tabs in the UI
 const searchTab = document.querySelector("#search-button");
 const favoriteTab = document.querySelector("#favorites-button");
