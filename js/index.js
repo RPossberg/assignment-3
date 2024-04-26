@@ -70,20 +70,21 @@ function addAlbumInteractivity(container) {
 const searchTab = document.querySelector("#search-button");
 const favoriteTab = document.querySelector("#favorites-button");
 const searchBtn = document.querySelector("#search-button");
+const favoriteBtn = document.querySelector("#favorites-button");
 
 // Search Tab
 searchTab.addEventListener("click", () => {
-  searchTab.classList.add("active");
-  searchBtn.classList.remove("d-none");
-  favoriteTab.classList.remove("active");
+  searchTab.classList.remove("d-none");
+  searchBtn.classList.add("active");
+  favoriteTab.classList.remove("d-none");
   renderAlbums(store);
 });
 
 // Favorites Tab
 favoriteTab.addEventListener("click", () => {
   favoriteTab.classList.add("active");
-  searchTab.classList.remove("active");
-  searchBtn.classList.add("d-none");
+  searchTab.classList.remove("d-none");
+  searchBtn.classList.add("active");
   // If there are no favorite albums, display a message to the user and display the search tab.
   if (favoriteStore.length === 0) {
     alert("No favorite albums found.");
