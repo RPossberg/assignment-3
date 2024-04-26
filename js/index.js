@@ -12,20 +12,12 @@ const masterCopy = document.querySelector("#results").cloneNode(true);
 let albumStore = []; // store the album data
 let favoriteStore = []; // store the favorite album data
 //
-document.addEventListener("DOMContentLoaded", () => {
-  // Assuming `store` is your array of albums
-  renderAlbums(store);
-  console.log(store);
-});
 
 // Initialization function
 async function appInit() {
   store = await fetcher(
     "https://66147b812fc47b4cf27c6899.mockapi.io/api/v1/albums"
   );
-
-  renderAlbums(store); // render albums
-  console.log(store);
 }
 
 appInit();
