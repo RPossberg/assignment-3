@@ -168,10 +168,7 @@ function updateFavoriteButton(album, favoriteStore) {
     button.removeEventListener("click", onAddToFavorites);
     button.addEventListener("click", onRemoveFromFavorites);
   }
-} // q: why is the button text not changing to "Remove from Favorites" when the album is already in the favorites list? a: The updateFavoriteButton function is not being called after the album is added to the favorites list. You can call the updateFavoriteButton function after adding an album to the favorites list in the onAddToFavorites function.
-// Define an album object
-// let album = store.find((album) => album.uid === uid); // Find an album by its uid. q: why is defining this object causing the search to not work? a: it's not causing the search to not work. It's just that the album object is not defined in the current scope. It's only defined in the addAlbumInteractivity function. So, it's not accessible in the updateFavoriteButton function. You can pass the album object as an argument to the updateFavoriteButton function.
-// q: how do I pass the album object as an argument to the updateFavoriteButton function? a: You can pass the album object as an argument to the updateFavoriteButton function by adding it as a parameter in the function definition and passing it as an argument when calling the function.
+}
 
 // Remove from Favorites
 // async function onRemoveFromFavorites(event) {
@@ -207,7 +204,8 @@ document.querySelector("#search-form").addEventListener("submit", (e) => {
 document.querySelector("#favorites-button").addEventListener("click", (e) => {
   e.preventDefault();
   renderAlbums(favoriteStore);
-  updateFavoriteButton(album);
+  updateFavoriteButton(favoritesButton, favoriteStore);
+  console.log(favoriteStore);
 });
 
 // when the user requests to view the search results, render the search results to the DOM

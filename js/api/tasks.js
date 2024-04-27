@@ -25,7 +25,7 @@ async function postRequest(data) {
 
 async function getRequest() {
   const res = await fetch(
-    "https://66147b812fc47b4cf27c6899.mockapi.io/api/v1/favorites"
+    "https://66147b812fc47b4cf27c6899.mockapi.io/api/v1/albums"
   );
   return await res.json();
 }
