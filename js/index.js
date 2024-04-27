@@ -172,15 +172,6 @@ function updateFavoriteButton(album) {
 //   favoriteStore.splice(albumIndex, 1);
 //   renderAlbums(store);
 // }
-async function onRemoveFromFavorites(event) {
-  const uid = event.target.getAttribute("data-uid");
-  const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
-  if (albumIndex !== -1) {
-    favoriteStore.splice(albumIndex, 1);
-    updateFavoriteButton(album); // Ensure the button is updated
-  }
-  renderAlbums(store);
-}
 
 // document.addEventListener("DOMContentLoaded", (e) => {
 //   {
