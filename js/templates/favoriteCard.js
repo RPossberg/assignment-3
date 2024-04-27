@@ -17,6 +17,6 @@ function albumTemplate({ artistName, albumName, averageRating, uid }) {
 }
 
 export function favoriteCard(album) {
-  const template = albumTemplate(album);
+  const template = albumTemplate(favoriteCard);
   return toElement(template);
 }

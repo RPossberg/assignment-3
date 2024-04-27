@@ -134,6 +134,16 @@ function addToFavorites(apiUrl, itemId) {
 async function onAddToFavorites(event) {
   const uid = event.target.getAttribute("data-uid");
   const album = store.find((album) => album.uid === uid);
+  const favoriteAlbum = favoriteStore.find((album) => album.uid === uid);
+  if (
+    favoriteAlbum.includes(favoriteAlbum) &&
+    event.target.hasAttribute("data-uid")
+  ) {
+    const temp = await postRequest(favoriteAlbum);
+    favoriteStore.push(favoriteAlbum);
+    console.log(temp);
+  }
+
   favoriteStore.push(album);
   renderAlbums(store);
   console.log(favoriteStore);
@@ -148,7 +158,7 @@ async function onRemoveFromFavorites(event) {
 }
 
 // Change the button text on the album card to "Remove from Favorites" when the album is already in the favorites list and add an event listener to remove the album from the favorites list when the button is clicked.
-function updateFavoriteButton(album) {
+function updateFavoriteButton(album, favoriteStore) {
   const favoriteIndex = favoriteStore.findIndex(
     (favorite) => favorite.uid === album.uid
   );
@@ -158,7 +168,10 @@ function updateFavoriteButton(album) {
     button.removeEventListener("click", onAddToFavorites);
     button.addEventListener("click", onRemoveFromFavorites);
   }
-}
+} // q: why is the button text not changing to "Remove from Favorites" when the album is already in the favorites list? a: The updateFavoriteButton function is not being called after the album is added to the favorites list. You can call the updateFavoriteButton function after adding an album to the favorites list in the onAddToFavorites function.
+// Define an album object
+// let album = store.find((album) => album.uid === uid); // Find an album by its uid. q: why is defining this object causing the search to not work? a: it's not causing the search to not work. It's just that the album object is not defined in the current scope. It's only defined in the addAlbumInteractivity function. So, it's not accessible in the updateFavoriteButton function. You can pass the album object as an argument to the updateFavoriteButton function.
+// q: how do I pass the album object as an argument to the updateFavoriteButton function? a: You can pass the album object as an argument to the updateFavoriteButton function by adding it as a parameter in the function definition and passing it as an argument when calling the function.
 
 // Remove from Favorites
 // async function onRemoveFromFavorites(event) {
