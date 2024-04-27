@@ -109,6 +109,27 @@ favoritesTab.addEventListener("click", () => {
   }
 });
 
+function addToFavorites(apiUrl, itemId) {
+  // Define the data to be sent in the body of the request
+  const data = {
+    id: itemId,
+  };
+
+  // Use the Fetch API to make the request
+  fetch(`${apiUrl}/favorites`, {
+    method: "POST", // Specify the method
+    headers: {
+      "Content-Type": "application/json", // Set the content type header
+    },
+    body: JSON.stringify(data), // Convert the data to a JSON string
+  })
+    .then((response) => response.json()) // Parse the JSON response
+    .then((data) => console.log(data)) // Log the data for debugging
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
 // Add to Favorites
 async function onAddToFavorites(event) {
   const uid = event.target.getAttribute("data-uid");
@@ -116,6 +137,19 @@ async function onAddToFavorites(event) {
   favoriteStore.push(album);
   renderAlbums(store);
   console.log(favoriteStore);
+}
+
+// Remove from Favorites
+async function onRemoveFromFavorites(event) {
+  const uid = event.target.getAttribute("data-uid");
+  const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
+  favoriteStore.splice(albumIndex, 1);
+  renderAlbums(store);
+}
+
+function updateFavoritesListUI() {
+  // Clear the current favorites list UI
+  // Iterate over `favoriteStore` and add each favorite album to the UI
 }
 
 // Change the button text on the album card to "Remove from Favorites" when the album is already in the favorites list and add an event listener to remove the album from the favorites list when the button is clicked.
