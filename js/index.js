@@ -67,21 +67,36 @@ function addAlbumInteractivity(container) {
 }
 
 // Setup tab switching between the Search Albums and Favorite Albums tabs in the UI
-const searchTab = document.querySelector("#search-button");
-const favoriteTab = document.querySelector("#favorites-button");
-const searchBtn = document.querySelector("#search-button");
-const favoriteBtn = document.querySelector("#favorites-button");
-
+const searchButton = document.querySelector("#search-button");
+const favoritesButton = document.querySelector("#favorites-button");
+const searchTab = document.querySelector("#search-tab");
+const favoritesTab = document.querySelector("#favorites-tab");
+console.log(favoritesTab);
 // Search Tab
-searchTab.addEventListener("click", () => {
+searchButton.addEventListener("click", () => {
+  // If the search tab is clicked, display the search tab and hide the favorite tab
+  searchButton.classList.add("active");
   searchTab.classList.remove("d-none");
-  searchBtn.classList.add("active");
-  favoriteTab.classList.remove("d-none");
-  renderAlbums(store);
+  favoritesButton.classList.remove("active");
+  favoritesTab.classList.add("d-none");
 });
 
+// // Setup tab switching between the Search Albums and Favorite Albums tabs in the UI
+// const searchTab = document.querySelector("#search-tab");
+// const favoriteTab = document.querySelector("#favorites-button");
+// const searchBtn = document.querySelector("#search-button");
+// const favoriteBtn = document.querySelector("#favorites-tab");
+// console.log(searchTab, favoriteTab, searchBtn, favoriteBtn);
+
+// // Search Tab
+// searchTab.addEventListener("click", () => {
+//   searchTab.classList.remove("d-none");
+//   searchBtn.classList.add("active");
+//   favoriteTab.classList.remove("d-none");
+// });
+
 // Favorites Tab
-favoriteTab.addEventListener("click", () => {
+favoritesTab.addEventListener("click", () => {
   favoriteTab.classList.add("active");
   searchTab.classList.remove("d-none");
   searchBtn.classList.add("active");
@@ -133,18 +148,18 @@ async function onRemoveFromFavorites(event) {
   renderAlbums(store);
 }
 
-document.addEventListener("DOMContentLoaded", (e) => {
-  {
-    e.preventDefault();
-    const query = document.querySelector("#query").value.trim();
-    console.log(query);
-    const results = store.filter((album) => {
-      return album.albumName.toLowerCase().includes(query.toLowerCase());
-    });
+// document.addEventListener("DOMContentLoaded", (e) => {
+//   {
+//     e.preventDefault();
+//     const query = document.querySelector("#query").value.trim();
+//     console.log(query);
+//     const results = store.filter((album) => {
+//       return album.albumName.toLowerCase().includes(query.toLowerCase());
+//     });
 
-    renderAlbums(results);
-  }
-});
+//     renderAlbums(results);
+//   }
+// });
 // when the user requests a search, query the album data for matches on both the artistName and the albumName. Use the template in the albumCard.js file to render the results
 document.querySelector("#search-form").addEventListener("submit", (e) => {
   e.preventDefault();
