@@ -194,6 +194,7 @@ document.querySelector("#search-form").addEventListener("submit", (e) => {
 document.querySelector("#favorites-button").addEventListener("click", (e) => {
   e.preventDefault();
   renderAlbums(favoriteStore);
+  updateFavoriteButton(album);
 });
 
 // when the user requests to view the search results, render the search results to the DOM
