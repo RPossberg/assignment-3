@@ -124,7 +124,7 @@ function addToFavorites(apiUrl, itemId) {
     body: JSON.stringify(data), // Convert the data to a JSON string
   })
     .then((response) => response.json()) // Parse the JSON response
-    .then((data) => console.log(data)) // Log the data for debugging
+    .then((data) => console.log(data)) // *Log the data for debugging
     .catch((error) => {
       console.error("Error:", error);
     });
@@ -145,11 +145,6 @@ async function onRemoveFromFavorites(event) {
   const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
   favoriteStore.splice(albumIndex, 1);
   renderAlbums(store);
-}
-
-function updateFavoritesListUI() {
-  // Clear the current favorites list UI
-  // Iterate over `favoriteStore` and add each favorite album to the UI
 }
 
 // Change the button text on the album card to "Remove from Favorites" when the album is already in the favorites list and add an event listener to remove the album from the favorites list when the button is clicked.
@@ -173,18 +168,10 @@ function updateFavoriteButton(album) {
 //   renderAlbums(store);
 // }
 
-// document.addEventListener("DOMContentLoaded", (e) => {
-//   {
-//     e.preventDefault();
-//     const query = document.querySelector("#query").value.trim();
-//     console.log(query);
-//     const results = store.filter((album) => {
-//       return album.albumName.toLowerCase().includes(query.toLowerCase());
-//     });
-
 //     renderAlbums(results);
 //   }
 // });
+
 // when the user requests a search, query the album data for matches on both the artistName and the albumName. Use the template in the albumCard.js file to render the results
 document.querySelector("#search-form").addEventListener("submit", (e) => {
   e.preventDefault();
