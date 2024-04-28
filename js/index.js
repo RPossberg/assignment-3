@@ -20,8 +20,6 @@ async function appInit() {
   );
 }
 
-appInit();
-
 function renderAlbums(albums) {
   const container = masterCopy.cloneNode(true); // Clone the master copy of the results container
   albums.forEach((album) => {
@@ -48,7 +46,8 @@ function renderAlbums(albums) {
 
 function addAlbumInteractivity(container) {
   container.querySelectorAll("button").forEach((button) => {
-    button.addEventListener("click", (e) => {
+    button.addEventListener("click", (addEventListener) => {
+      // Add an event listener to each button
       const uid = e.target.getAttribute("data-uid");
       const album = store.find((album) => album.uid === uid);
       const favoriteIndex = favoriteStore.findIndex(
@@ -67,16 +66,18 @@ function addAlbumInteractivity(container) {
 }
 
 // Setup tab switching between the Search Albums and Favorite Albums tabs in the UI
+
 const searchButton = document.querySelector("#search-button");
 const favoritesButton = document.querySelector("#favorites-button");
 const searchTab = document.querySelector("#search-tab");
 const favoritesTab = document.querySelector("#favorites-tab");
 console.log(favoritesTab);
+
 // Search Tab
 searchButton.addEventListener("click", () => {
   // If the search tab is clicked, display the search tab and hide the favorite tab
-  searchButton.classList.add("active");
-  searchTab.classList.remove("d-none");
+  searchButton.classList.add("active"); // Add the active class to the search button
+  searchTab.classList.remove("d-none"); // Remove the d-none class from the search tab
   favoritesButton.classList.remove("active");
   favoritesTab.classList.add("d-none");
 });
@@ -112,7 +113,16 @@ favoritesTab.addEventListener("click", () => {
 function addToFavorites(apiUrl, itemId) {
   // Define the data to be sent in the body of the request
   const data = {
-    id: itemId,
+    id: 1,
+    artistName: "Artist Name",
+    albumName: "Album Name",
+    releaseDate: "2021-01-01",
+    genres: ["Pop", "Rock"],
+    descriptors: ["Energetic", "Upbeat"],
+    averageRating: 4.5,
+    numberRatings: 100,
+    numberReviews: 50,
+    uid: "123456",
   };
 
   // Use the Fetch API to make the request
@@ -131,14 +141,14 @@ function addToFavorites(apiUrl, itemId) {
 }
 
 // Add to Favorites
-async function onAddToFavorites(event) {
-  const index = event.target.dataset.index;
+async function onAddToFavorites(e) {
+  const index = e.target.dataset.index;
   const album = store.find((album) => album.uid === uid);
   // const favoriteAlbum = favoriteStore.find((album) => album.uid === uid);
   const favoriteAlbum = searchedResults[parseInt(index)];
   if (
     favoriteAlbum.includes(favoriteAlbum) &&
-    event.target.hasAttribute("data-index")
+    e.target.hasAttribute("data-index")
   ) {
     // Check if the album is already in the favorites list
     const temp = await postRequest(favoriteAlbum);
@@ -152,8 +162,8 @@ async function onAddToFavorites(event) {
 }
 
 // Remove from Favorites
-async function onRemoveFromFavorites(event) {
-  const uid = event.target.getAttribute("data-uid");
+async function onRemoveFromFavorites(e) {
+  const uid = e.target.getAttribute("data-uid");
   const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
   favoriteStore.splice(albumIndex, 1);
   renderAlbums(store);
@@ -185,15 +195,15 @@ function updateFavoriteButton() {
 }
 
 // Remove from Favorites
-async function onRemoveFavorite(event) {
-  const uid = event.target.dataset.uid;
+async function onRemoveFavorite(e) {
+  const uid = e.target.dataset.uid;
   const favoriteAlbumToRemove = favoriteStore.find(
     (album) => album.uid === uid
   );
 
   if (
     favoriteStore.includes(favoriteAlbumToRemove) &&
-    event.target.hasAttribute("data-uid")
+    e.target.hasAttribute("data-uid")
   );
   renderFavoriteAlbums(favoriteStore);
   await deleteRequest(favoriteAlbumToRemove.id);
@@ -228,5 +238,9 @@ document.querySelector("#favorites-button").addEventListener("click", (e) => {
 // when the user requests to view the search results, render the search results to the DOM
 document.querySelector("#search-button").addEventListener("click", (e) => {
   e.preventDefault();
+  renderAlbums(store);
+});
+
+appInit().then(() => {
   renderAlbums(store);
 });
