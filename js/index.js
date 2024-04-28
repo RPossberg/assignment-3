@@ -48,7 +48,7 @@ function addAlbumInteractivity(container) {
   container.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", (addEventListener) => {
       // Add an event listener to each button
-      const uid = e.target.getAttribute("data-uid");
+      const uid = button.getAttribute("data-uid");
       const album = store.find((album) => album.uid === uid);
       const favoriteIndex = favoriteStore.findIndex(
         (album) => album.uid === uid
