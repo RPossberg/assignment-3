@@ -132,21 +132,23 @@ function addToFavorites(apiUrl, itemId) {
 
 // Add to Favorites
 async function onAddToFavorites(event) {
-  const uid = event.target.getAttribute("data-uid");
+  const index = event.target.dataset.index;
   const album = store.find((album) => album.uid === uid);
-  const favoriteAlbum = favoriteStore.find((album) => album.uid === uid);
+  // const favoriteAlbum = favoriteStore.find((album) => album.uid === uid);
+  const favoriteAlbum = searchedResults[parseInt(index)];
   if (
     favoriteAlbum.includes(favoriteAlbum) &&
-    event.target.hasAttribute("data-uid")
+    event.target.hasAttribute("data-index")
   ) {
+    // Check if the album is already in the favorites list
     const temp = await postRequest(favoriteAlbum);
-    favoriteStore.push(favoriteAlbum);
+    favoriteStore.push(temp);
     console.log(temp);
   }
 
-  favoriteStore.push(album);
-  renderAlbums(store);
-  console.log(favoriteStore);
+  // favoriteStore.push(album);
+  // renderAlbums(store);
+  // console.log(favoriteStore);
 }
 
 // Remove from Favorites
@@ -158,29 +160,44 @@ async function onRemoveFromFavorites(event) {
 }
 
 // Change the button text on the album card to "Remove from Favorites" when the album is already in the favorites list and add an event listener to remove the album from the favorites list when the button is clicked.
-function updateFavoriteButton(album, favoriteStore) {
-  const favoriteIndex = favoriteStore.findIndex(
-    (favorite) => favorite.uid === album.uid
-  );
-  if (favoriteIndex !== -1) {
-    const button = document.querySelector(`button[data-uid="${album.uid}"]`);
-    button.textContent = "Remove from Favorites";
-    button.removeEventListener("click", onAddToFavorites);
-    button.addEventListener("click", onRemoveFromFavorites);
+// function updateFavoriteButton(album, favoriteStore) {
+//   const favoriteIndex = favoriteStore.findIndex(
+//     (favorite) => favorite.uid === album.uid
+//   );
+//   if (favoriteIndex !== -1) {
+//     const button = document.querySelector(`button[data-uid="${album.uid}"]`);
+//     button.textContent = "Remove from Favorites";
+//     button.removeEventListener("click", onAddToFavorites);
+//     button.addEventListener("click", onRemoveFromFavorites);
+//   }
+// }
+
+function updateFavoriteButton() {
+  let element = document.querySelector("data-uid"); // Get the element
+  if (element) {
+    // Check if the element exists
+    element.textContent = "Add to Favorites"; // Change the text content
+    element.textContent = "Remove from Favorites"; // Change the text content
+  } else {
+    // If the element does not exist
+    console.log("#myElement does not exist in the DOM");
   }
 }
 
 // Remove from Favorites
-// async function onRemoveFromFavorites(event) {
-//   const uid = event.target.getAttribute("data-uid");
-//   const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
-//   favoriteStore.splice(albumIndex, 1);
-//   renderAlbums(store);
-// }
+async function onRemoveFavorite(event) {
+  const uid = event.target.dataset.uid;
+  const favoriteAlbumToRemove = favoriteStore.find(
+    (album) => album.uid === uid
+  );
 
-//     renderAlbums(results);
-//   }
-// });
+  if (
+    favoriteStore.includes(favoriteAlbumToRemove) &&
+    event.target.hasAttribute("data-uid")
+  );
+  renderFavoriteAlbums(favoriteStore);
+  await deleteRequest(favoriteAlbumToRemove.id);
+}
 
 // when the user requests a search, query the album data for matches on both the artistName and the albumName. Use the template in the albumCard.js file to render the results
 document.querySelector("#search-form").addEventListener("submit", (e) => {
