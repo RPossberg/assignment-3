@@ -4,8 +4,7 @@ console.log("index.js"); // log to the console to confirm that the file is being
 import { fetcher } from "./utils/fetcher";
 import { albumCard } from "./templates/albumCard";
 import { favoriteCard } from "./templates/favoriteCard";
-// import { renderAlbums } from "./templates/albumCard.js";
-// import { renderFavoriteAlbums } from "./templates/favoriteCard.js";
+import { postRequest, deleteRequest } from "./api/tasks";
 
 // Global variables
 let store; // store the album data
@@ -239,13 +238,19 @@ document.querySelector("#search-form").addEventListener("submit", (e) => {
   }
 });
 
-// when the user requests to view the favorite albums, render the favorite albums to the DOM
+// when the user requests to view the favorite albums, render the favorite albums to the DOM. Use the template in the favoriteCard.js file to render the results
 document.querySelector("#favorites-button").addEventListener("click", (e) => {
   e.preventDefault();
   renderAlbums(favoriteStore);
   updateFavoriteButton(favoritesButton, favoriteStore);
   console.log(favoriteStore);
 });
+// document.querySelector("#favorites-button").addEventListener("click", (e) => {
+//   e.preventDefault();
+//   renderAlbums(favoriteStore);
+//   updateFavoriteButton(favoritesButton, favoriteStore);
+//   console.log(favoriteStore);
+// });
 
 // when the user requests to view the search results, render the search results to the DOM
 document.querySelector("#search-button").addEventListener("click", (e) => {
