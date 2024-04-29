@@ -107,10 +107,11 @@ favoritesTab.addEventListener("click", () => {
     searchTab.click();
   } else {
     renderAlbums(favoriteStore);
+    console.log(favoriteStore);
   }
 });
 
-function addToFavorites(Url, Id) {
+function addToFavorites(Url, uid) {
   // Define the data to be sent in the body of the request
   const data = {
     id: 1,
@@ -126,7 +127,7 @@ function addToFavorites(Url, Id) {
   };
 
   // Use the Fetch API to make the request
-  fetch(`${apiUrl}/favorites`, {
+  fetch(`${Url}/favorites`, {
     method: "POST", // Specify the method
     headers: {
       "Content-Type": "application/json", // Set the content type header
@@ -154,7 +155,8 @@ async function onAddToFavorites(e) {
     // Check if the album is already in the favorites list
     const temp = await postRequest(favoriteAlbum);
     favoriteStore.push(temp);
-    console.log(temp);
+    // console.log(temp);
+    renderAlbums(favoriteStore);
   }
 
   // favoriteStore.push(album);
@@ -166,7 +168,9 @@ async function onAddToFavorites(e) {
 async function onRemoveFromFavorites(e) {
   const uid = e.target.getAttribute("data-uid");
   const albumIndex = favoriteStore.findIndex((album) => album.uid === uid);
+  console.log(favoriteAlbumToRemove);
   favoriteStore.splice(albumIndex, 1);
+  console.log(favoriteStore);
   renderAlbums(store);
 }
 
