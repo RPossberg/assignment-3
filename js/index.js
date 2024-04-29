@@ -110,7 +110,7 @@ favoritesTab.addEventListener("click", () => {
   }
 });
 
-function addToFavorites(apiUrl, itemId) {
+function addToFavorites(Url, Id) {
   // Define the data to be sent in the body of the request
   const data = {
     id: 1,
@@ -142,13 +142,14 @@ function addToFavorites(apiUrl, itemId) {
 
 // Add to Favorites
 async function onAddToFavorites(e) {
+  const uid = e.target.getAttribute("data-uid");
   const index = e.target.dataset.index;
   const album = store.find((album) => album.uid === uid);
   // const favoriteAlbum = favoriteStore.find((album) => album.uid === uid);
   const favoriteAlbum = searchedResults[parseInt(index)];
   if (
-    favoriteAlbum.includes(favoriteAlbum) &&
-    e.target.hasAttribute("data-index")
+    !favoriteStore.some((album) => album.uid === favoriteAlbum.uid) &&
+    e.target.hasAttribute("data-uid")
   ) {
     // Check if the album is already in the favorites list
     const temp = await postRequest(favoriteAlbum);
