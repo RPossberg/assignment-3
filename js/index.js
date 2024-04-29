@@ -5,6 +5,7 @@ import { fetcher } from "./utils/fetcher";
 import { albumCard } from "./templates/albumCard";
 import { favoriteCard } from "./templates/favoriteCard";
 // import { renderAlbums } from "./templates/albumCard.js";
+// import { renderFavoriteAlbums } from "./templates/favoriteCard.js";
 
 // Global variables
 let store; // store the album data
@@ -148,6 +149,8 @@ async function onAddToFavorites(e) {
   const album = store.find((album) => album.uid === uid);
   // const favoriteAlbum = favoriteStore.find((album) => album.uid === uid);
   const favoriteAlbum = searchedResults[parseInt(index)];
+  // prevent default behavior
+  e.preventDefault();
   if (
     !favoriteStore.some((album) => album.uid === favoriteAlbum.uid) &&
     e.target.hasAttribute("data-uid")
@@ -155,8 +158,12 @@ async function onAddToFavorites(e) {
     // Check if the album is already in the favorites list
     const temp = await postRequest(favoriteAlbum);
     favoriteStore.push(temp);
+    favoriteStore = [...favoriteStore, temp];
     // console.log(temp);
-    renderAlbums(favoriteStore);
+    // renderAlbums(favoriteStore);
+    addToFavorites(favoriteAlbum);
+    renderAlbums(store);
+    console.log(favoriteStore);
   }
 
   // favoriteStore.push(album);

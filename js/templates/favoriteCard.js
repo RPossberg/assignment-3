@@ -16,21 +16,21 @@ function albumTemplate({ artistName, albumName, averageRating, uid }) {
   return template;
 }
 
-function addToFavorites(apiUrl, itemId) {
-  // Define the data to be sent in the body of the request
-  const data = {
-    id: 1,
-    artistName: "Artist Name",
-    albumName: "Album Name",
-    releaseDate: "2021-01-01",
-    genres: ["Pop", "Rock"],
-    descriptors: ["Energetic", "Upbeat"],
-    averageRating: 4.5,
-    numberRatings: 100,
-    numberReviews: 50,
-    uid: "123456",
-  };
-}
+// function addToFavorites(apiUrl, itemId) {
+//   // Define the data to be sent in the body of the request
+//   const data = {
+//     id: 1,
+//     artistName: "Artist Name",
+//     albumName: "Album Name",
+//     releaseDate: "2021-01-01",
+//     genres: ["Pop", "Rock"],
+//     descriptors: ["Energetic", "Upbeat"],
+//     averageRating: 4.5,
+//     numberRatings: 100,
+//     numberReviews: 50,
+//     uid: "123456",
+//   };
+// }
 
 export function favoriteCard(album) {
   const template = albumTemplate(favoriteCard);
