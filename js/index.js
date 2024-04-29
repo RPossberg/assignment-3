@@ -184,7 +184,7 @@ async function onRemoveFromFavorites(e) {
 // }
 
 function updateFavoriteButton() {
-  let element = document.querySelector("data-uid"); // Get the element
+  let element = document.querySelector("#favorites-tab"); // Get the element
   if (element) {
     // Check if the element exists
     element.textContent = "Add to Favorites"; // Change the text content
@@ -223,7 +223,7 @@ document.querySelector("#search-form").addEventListener("submit", (e) => {
     );
     renderAlbums(results);
   } else {
-    console.error("'store' is not properly initialized or is not an array.");
+    console.error("'store' is not properly initialized or is not an array."); // q: what are the ways to handle anonymous functions?
     // Optionally, handle the error, e.g., display a message to the user
   }
 });
